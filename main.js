@@ -5,12 +5,23 @@ const loadCategory = () => {
     .then(data => showCategory(data.categories)
     )
 }
+// show data API
+const catagoryShowing = (id) => {
+    fetch(`https://openapi.programming-hero.com/api/phero-tube/category/${id}`)
+    .then(res => res.json())
+    .then(data => showVideos(data.category))
+}
+
 const showCategory = (data) => {
     const showMenu = document.getElementById('category')
     data.forEach(item => {
         const div = document.createElement('div');
-        div.classList = 'mx-5 bg-sky-500 p-3 text-white rounded-xl cursor-pointer'
-        div.innerHTML = item.category
+        div.classList = 'lg:mx-5 mx-1 bg-sky-500 p-3 text-white rounded-xl cursor-pointer'
+        div.innerHTML = `
+            <button onclick="catagoryShowing(${item.category_id})">
+            ${item.category}
+            </button>
+        `
         showMenu.append(div)
     });
 }
@@ -26,6 +37,18 @@ const loadVideos = () => {
 
 const showVideos = (video) => {
     const videoContainer = document.getElementById("videos");
+    videoContainer.innerHTML = " "
+    if(video.length == ""){
+        videoContainer.innerHTML = `
+        <div class="w-[80%] mx-auto">
+        <img src="https://srec.ac.in/themes/frontend/images/no_data.jpg" alt="">
+        </div>
+        `
+        videoContainer.classList.remove('grid', 'grid-cols-1', 'md:grid-cols-2', 'lg:grid-cols-4', 'gap-5');
+    }
+    else{
+        videoContainer.classList.add('grid', 'grid-cols-1', 'md:grid-cols-2', 'lg:grid-cols-4', 'gap-5');
+    }
     video.forEach(item => {
         const videoCard = document.createElement('div')
         videoCard.innerHTML = `
