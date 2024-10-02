@@ -43,7 +43,11 @@ const showVideos = (video) => {
         </div>
             <div class="space-y-1 mt-3 ml-3">
             <h2 class="card-title">${item.title}</h2>
+            <div class="flex items-center">
             <p class="text-gray-500">${item.authors[0].profile_name}</p>
+            <span>${item.authors[0].verified == true ? `<i class="fas fa-check-circle w-5 ml-3" style="color: #1DA1F2;"></i>`: " "}</span>
+            </div>
+            <p>${item.others.views} views</p>
         </div>
         </div>
         </div>
