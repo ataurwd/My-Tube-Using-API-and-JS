@@ -5,20 +5,34 @@ const loadCategory = () => {
     .then(data => showCategory(data.categories)
     )
 }
+
+// manage active menu style
+const activeMenuStyle = () => {
+    const button = document.getElementsByClassName('category-btn');
+    for (const btn of button) {
+        btn.classList.remove('bg-red-400')
+    }
+    return button;
+}
 // show data API
 const catagoryShowing = (id) => {
     fetch(`https://openapi.programming-hero.com/api/phero-tube/category/${id}`)
     .then(res => res.json())
-    .then(data => showVideos(data.category))
+    .then(data => {
+        activeMenuStyle()
+        const activeBtn = document.getElementById(`btn-${id}`);
+        activeBtn.classList.add('bg-red-400')
+        showVideos(data.category)
+    })
 }
 
 const showCategory = (data) => {
     const showMenu = document.getElementById('category')
     data.forEach(item => {
         const div = document.createElement('div');
-        div.classList = 'lg:mx-5 mx-1 bg-sky-500 p-3 text-white rounded-xl cursor-pointer'
+        div.classList = 'lg:mx-5 mx-1 text-white rounded-xl cursor-pointer'
         div.innerHTML = `
-            <button onclick="catagoryShowing(${item.category_id})">
+            <button id="btn-${item.category_id}" onclick="catagoryShowing(${item.category_id})" class="category-btn bg-sky-500 px-2 py-1 rounded-xl">
             ${item.category}
             </button>
         `
@@ -26,10 +40,25 @@ const showCategory = (data) => {
     });
 }
 loadCategory()
+//load video details 
 
+const loadVideoDetails = async(id) => {
+    const url = (`https://openapi.programming-hero.com/api/phero-tube/video/${id}`)
+    const res = await fetch(url);
+    const data = await res.json()
+    modalData(data.video)
+}
+const modalData = (data) => {
+    const modalID = document.getElementById('showData')
+        modalID.innerHTML = `
+        <img class="w-full" src="${data.thumbnail}"/>
+        <p class="py-4">${data.description}</p>
+        `
+        document.getElementById('modal').showModal()
+}
 // for videos section
-const loadVideos = () => {
-    fetch('https://openapi.programming-hero.com/api/phero-tube/videos')
+const loadVideos = (searchText = " ") => {
+    fetch(`https://openapi.programming-hero.com/api/phero-tube/videos?title=${searchText}`)
     .then(res => res.json())
     .then(data => showVideos(data.videos)
     )
@@ -57,6 +86,7 @@ const showVideos = (video) => {
             <img class="h-full w-full"
             src=${item.thumbnail}
             alt="Shoes" />
+            <p class="absolute right-2 top-40 text-[16px]">12345</p>
         </figure>
         <div class="flex items-center">
         <div>
@@ -73,9 +103,17 @@ const showVideos = (video) => {
             <p>${item.others.views} views</p>
         </div>
         </div>
+            <button onclick="loadVideoDetails('${item.video_id}')" class="btn btn-primary">Details</button>
         </div>
         `
         videoContainer.append(videoCard)
     })
 }
+
+
+//search system
+
+document.getElementById('search-input').addEventListener('keyup', (e) => {
+    loadVideos(e.target.value);
+})
 loadVideos()

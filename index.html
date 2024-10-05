@@ -13,6 +13,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sixtyfour+Convergence&display=swap" rel="stylesheet">
     <!-- custom styls -->
+     <style>
+      .active{
+        background-color: red;
+        color: white;
+      }
+     </style>
     <script>
         tailwind.config = {
           theme: {
@@ -29,12 +35,46 @@
       </script>
 </head>
 <body>
+  <nav class="flex items-center justify-between mx-20">
+    <img class="w-[200px]" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQKJQ9OapfXTDoDImQHDFEfocZcvmL0SA-kzQ&s" alt="">
+    <label class="input input-bordered flex items-center gap-2">
+      <input id="search-input" type="text" class="grow" placeholder="Search" />
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 16 16"
+        fill="currentColor"
+        class="h-4 w-4 opacity-70">
+        <path
+          fill-rule="evenodd"
+          d="M9.965 11.026a5 5 0 1 1 1.06-1.06l2.755 2.754a.75.75 0 1 1-1.06 1.06l-2.755-2.754ZM10.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"
+          clip-rule="evenodd" />
+      </svg>
+    </label>
+    <button class="btn btn-primary">Blog</button>
+  </nav>
     <h1 class="text-center text-4xl font-bold font-sixtyfour mt-5">Welcome To <span class="text-sky-500">MY Tube</span></h1>
     <header id="category" class="flex justify-center mt-5 text-xl">
 
     </header>
     <main id="videos" class="lg:my-20 md:my-5 my-2 lg:mx-10 md:mx-5 mx-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
     </main>
+
+
+    <!-- Open the modal using ID.showModal() method -->
+    <button class="btn hidden" onclick="modal.showModal()">open modal</button>
+    <dialog id="modal" class="modal">
+      <div class="modal-box">
+        <div id="showData">
+
+        </div>
+        <div class="modal-action">
+          <form method="dialog">
+            <!-- if there is a button in form, it will close the modal -->
+            <button class="btn">Close</button>
+          </form>
+        </div>
+      </div>
+    </dialog>
     <script src="main.js"></script>
 </body>
 </html>
